@@ -5,7 +5,7 @@ function Branch(props) {
         <>
             <h3>Matière : {props.branchData.matiere}</h3>
             <h4>Professeur : {props.branchData.professeur}</h4>
-            <EntryList />
+            <EntryList data={props.branchData} index={props.index} />
         </>
     )
 }

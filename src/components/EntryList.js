@@ -1,6 +1,10 @@
 import { useState } from "react";
-function EntryList() {
+function EntryList(props) {
     const [entries, setEntries] = useState([]);
+
+    // props.data.notes.forEach((element, index) => {
+    //     entries[index] = element
+    // });
 
     const handleAddEntry = () => {
         setEntries([...entries, ''])
@@ -8,6 +12,10 @@ function EntryList() {
 
     const handleRemoveEntry = (index) => {
         setEntries(entries.filter((_, i) => i !== index))
+        var calculateurLocalStorage = JSON.parse(localStorage.getItem('calculateur_moyennes'))
+        console.log(index)
+        calculateurLocalStorage = delete calculateurLocalStorage[props.index].notes[index]
+        console.log(calculateurLocalStorage)
     }
 
     const handleChange = (index, event) => {
