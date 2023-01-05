@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import Branch from './components/branch'
 import './App.css';
 
@@ -31,12 +30,12 @@ function App() {
   })
   return (
     <>
-      <h1>Calculateur de moyennes - Module 347</h1>
+      <h1>Calculateurs de moyennes - Module 347</h1>
       {
         branchs
       }
       <button onClick={() => {
-        fetch('http://localhost:4000')
+        fetch('http://localhost:4000/getGrades')
           .then(response => response.json())
           .then(data => console.log(data));
       }}>tototo</button>

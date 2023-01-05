@@ -13,9 +13,9 @@ services:
     volumes:
       - ./db:/docker-entrypoint-initdb.d
     expose:
-      - "3306"
+      - "3307"
     ports:
-      - "3306:3306"
+      - "3307:3307"
 
   pma:
     image: phpmyadmin
@@ -27,7 +27,9 @@ services:
       - db
 
   app:
-    build: .
+    build: ./app
+    volumes:
+       - ./app:/app
     container_name: calculateur_moyennes_app
     expose:
       - "3000"
@@ -42,7 +44,7 @@ services:
     links:
       - "db"
     volumes:
-      - ./api/:/home/node/app
+      - ./api:/home/node/app
     expose:
       - "4000"
     ports:
