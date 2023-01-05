@@ -1,50 +1,46 @@
 import { useState } from "react";
+
 function EntryList(props) {
+    const [entries, setEntries] = useState([])
 
     const handleAddEntry = () => {
-        fetch('http://localhost:4000/new/grade?name=&grade=')
-            .then(response => response.json());
+        fetch('http://localhost:4000/new/grade');
     }
 
-    const handleRemoveEntry = (event) => {
-        fetch(`http://localhost:4000/delete/grade?id=${event.target.parentElement.id}`)
-            .then(response => response.json());
+    const handleRemoveEntry = (index) => {
+        fetch(`http://localhost:4000/delete/grade?id=${index}`);
     }
 
     const handleChange = (index, event) => {
-        const parent = event.target.parentElement
         const name = event.target.parentElement.querySelector('.name')
         const grade = event.target.parentElement.querySelector('.grade')
-        fetch(`http://localhost:4000/update/grade?id=${parent.id}&name=${name.value}&grade=${grade.value}`)
-            .then(response => response.json());
+        fetch(`http://localhost:4000/update/grade?id=${index}&name=${name.value}&grade=${grade.value}`);
     }
 
-    let entries = []
-
     const updateEntries = () => {
-        let result
-
-        fetch(`http://localhost:4000/get/grades`)
+        return fetch(`http://localhost:4000/get/grades`)
             .then(response => response.json())
-            .then(data => result = data);
-
-        entries = []
-        for(let i in result)
-            entries.push([i, result[i]]);
-
-        console.log(result)
+            .then(data => {
+                let newEntries = []
+                for (const entry in data) {
+                    newEntries.push(entry)
+                }
+                setEntries(newEntries)
+            })
     }
 
     updateEntries()
+    console.log(entries)
 
     return (
         <div>
             <button type="button" onClick={handleAddEntry}>Add Entry</button>
             {
-                entries.map((entry, index) => (
-                <div key={index} id={entry.id}>
-                    <input type="text" value={entry} onChange={(event) => handleChange(index, event)} />
-                    <button type="button" onClick={() => handleRemoveEntry(index)}>Remove Entry</button>
+                entries.map(entry => (
+                <div key={entry.id}>
+                    <input className={'name'} type="text" value={entry.name} onChange={(event) => handleChange(entry.id, event)} />
+                    <input className={'grade'} type="text" value={entry.grade} onChange={(event) => handleChange(entry.id, event)} />
+                    <button type="button" onClick={() => handleRemoveEntry(entry.id)}>Remove Entry</button>
                 </div>
             ))
             }
