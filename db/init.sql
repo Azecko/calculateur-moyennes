@@ -36,5 +36,7 @@ ALTER TABLE `t_notes`
 --
 -- AUTO_INCREMENT for table `t_notes`
 --
-ALTER TABLE `t_notes`
-  MODIFY `id_note` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `grades`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `name` varchar(255);
+  MODIFY `grade` int(11);

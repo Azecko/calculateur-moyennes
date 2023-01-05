@@ -13,9 +13,9 @@ const app = express();
 
 const port = 4000;
 
-app.get('/', (req, res) => {
+app.get('/getGrades', (req, res) => {
     connection.query(
-        'SELECT * from t_notes',
+        'SELECT * from grades',
         function(err, results, fields) {
           res.setHeader('Access-Control-Allow-Origin', '*');
           res.send(results)
