@@ -26,15 +26,19 @@ app.get('/get/grades', (req, res) => {
 app.get('/new/grade', (req, res) => {
     const name = req.query.name
     const grade = req.query.grade
+    let sql = ''
     if (name && grade) {
-        connection.query(
-            `INSERT INTO grades (name, grade) VALUES ('${name}', '${grade}');`,
-            function (err, results, fields) {
-                res.setHeader('Access-Control-Allow-Origin', '*');
-                res.send(results)
-            }
-        );
+        sql = `INSERT INTO grades (name, grade) VALUES ('${name}', '${grade}');`
+    } else {
+        sql = `INSERT INTO grades (name, grade) VALUES ('', '');`
     }
+    connection.query(
+        sql,
+        function (err, results, fields) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.send(results)
+        }
+    );
 });
 
 app.listen(port, () =>
