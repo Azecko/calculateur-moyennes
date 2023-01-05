@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    container_name: calculateur_moyennes_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: calculateur_moyennes
+      MYSQL_USER: testdb
+      MYSQL_PASSWORD: testdb
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    expose:
+      - "3307"
+    ports:
+      - "3307:3307"
+
+  pma:
+    image: phpmyadmin
+    container_name: calculateur_moyennes_pma
+    restart: unless-stopped
+    ports:
+      - 8088:80
+    links:
+      - db
+
+  app:
+    build: ./app
+    volumes:
+       - ./app:/app
+    container_name: calculateur_moyennes_app
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+
+  api:
+    image: "node:17"
+    container_name: calculateur_moyennes_api
+    user: "node"
+    working_dir: /home/node/app
+    links:
+      - "db"
+    volumes:
+      - ./api:/home/node/app
+    expose:
+      - "4000"
+    ports:
+      - "4000:4000"
+    command: "npm run runapi"
