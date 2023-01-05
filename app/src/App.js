@@ -34,11 +34,6 @@ function App() {
       {
         branchs
       }
-      <button onClick={() => {
-        fetch('http://localhost:4000/getGrades')
-          .then(response => response.json())
-          .then(data => console.log(data));
-      }}>tototo</button>
     </>
   );
 }

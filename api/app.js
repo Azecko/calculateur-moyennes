@@ -13,7 +13,7 @@ const app = express();
 
 const port = 4000;
 
-app.get('/getGrades', (req, res) => {
+app.get('/get/grades', (req, res) => {
     connection.query(
         'SELECT * from grades',
         function(err, results, fields) {
@@ -21,6 +21,20 @@ app.get('/getGrades', (req, res) => {
           res.send(results)
         }
       );
+});
+
+app.get('/new/grade', (req, res) => {
+    const name = req.query.name
+    const grade = req.query.grade
+    if (name && grade) {
+        connection.query(
+            `INSERT INTO grades (name, grade) VALUES ('${name}', '${grade}');`,
+            function (err, results, fields) {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.send(results)
+            }
+        );
+    }
 });
 
 app.listen(port, () =>
