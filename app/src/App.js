@@ -26,7 +26,7 @@ function App() {
 
   var calculateurLocalStorage = JSON.parse(localStorage.getItem('calculateur_moyennes'))
   var branchs = Object.keys(calculateurLocalStorage).map(function(key) {
-    return <Branch branchData={calculateurLocalStorage[key]} index={key} />
+    return <Branch branchData={calculateurLocalStorage[key]} index={key} key={key} />
   })
   return (
     <>
@@ -34,11 +34,6 @@ function App() {
       {
         branchs
       }
-      <button onClick={() => {
-        fetch('http://localhost:4000/getGrades')
-          .then(response => response.json())
-          .then(data => console.log(data));
-      }}>tototo</button>
     </>
   );
 }

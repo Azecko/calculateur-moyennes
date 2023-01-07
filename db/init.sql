@@ -22,21 +22,20 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
-CREATE TABLE `t_notes` (
-  `id_note` int(11) NOT NULL,
-  `note` int(1) DEFAULT NULL
+CREATE TABLE `grades` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `grade` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for table `t_notes`
 --
-ALTER TABLE `t_notes`
-  ADD PRIMARY KEY (`id_note`);
+ALTER TABLE `grades`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for table `t_notes`
 --
 ALTER TABLE `grades`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-  MODIFY `name` varchar(255);
-  MODIFY `grade` int(11);
