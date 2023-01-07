@@ -12,10 +12,6 @@ services:
       MYSQL_PASSWORD: testdb
     volumes:
       - ./db:/docker-entrypoint-initdb.d
-    expose:
-      - "3307"
-    ports:
-      - "3307:3307"
 
   pma:
     image: phpmyadmin
@@ -49,4 +45,5 @@ services:
       - "4000"
     ports:
       - "4000:4000"
-    command: "npm run runapi"
+    restart: always
+    command: npm run runapi
