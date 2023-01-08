@@ -23,22 +23,6 @@ function EntryList() {
         await updateEntries()
     }
 
-    const handleRemoveEntry = async (index) => {
-        await fetch(`http://localhost:4000/grade?id=${index}`, {
-            method: 'DELETE'
-        });
-        await updateEntries()
-    }
-
-    const handleChange = async (index, event) => {
-        const name = event.target.parentElement.querySelector('.name')
-        const grade = event.target.parentElement.querySelector('.grade')
-        await fetch(`http://localhost:4000/grade?id=${index}&name=${name.value}&grade=${grade.value}`, {
-            method: 'PUT'
-        });
-        await updateEntries()
-    }
-
     return (
         <div>
             <button type="button" onClick={handleAddEntry}>Ajouter</button>
@@ -49,11 +33,11 @@ function EntryList() {
                     id={entry.id}
                     name={entry.name}
                     grade={entry.grade}
-                    handleChange={handleChange}
-                    handleRemoveEntry={handleRemoveEntry}
+                    updateEntries={updateEntries}
                 />
             ))
             }
+            <p>Moyenne : { entries.reduce((sum, entry) => sum + entry.grade, 0) / entries.filter((entry) => entry.grade).length }</p>
         </div>
     )
 
