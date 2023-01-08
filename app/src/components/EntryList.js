@@ -40,13 +40,13 @@ function EntryList() {
 
     return (
         <div>
-            <button type="button" onClick={handleAddEntry}>Add Entry</button>
+            <button type="button" onClick={handleAddEntry}>Ajouter</button>
             {
                 entries.map(entry => (
                 <div key={entry.id}>
                     <input className={'name'} type="text" defaultValue={entry.name} onChange={(event) => handleChange(entry.id, event)} />
                     <input className={'grade'} type="text" defaultValue={entry.grade} onChange={(event) => handleChange(entry.id, event)} />
-                    <button type="button" onClick={() => handleRemoveEntry(entry.id)}>Remove Entry</button>
+                    <button type="button" onClick={() => handleRemoveEntry(entry.id)}>Supprimer</button>
                 </div>
             ))
             }
