@@ -32,7 +32,7 @@ app.get('/grades', (req, res) => {
 
 app.post('/grade', (req, res) => {
     connection.query(
-      `INSERT INTO grades (name, grade) VALUES ('', '');`,
+      `INSERT INTO grades (name, grade) VALUES (NULL, NULL);`,
         function (err, results, fields) {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.send(results)
@@ -41,11 +41,10 @@ app.post('/grade', (req, res) => {
 });
 
 app.put('/grade', (req, res) => {
-  const id = req.query.id
   const name = req.query.name
   const grade = req.query.grade
   connection.query(
-    `UPDATE grades SET name = ?, grade = ? WHERE id = ?`, [name, grade, id],
+    `UPDATE grades SET name = ?, grade = ? WHERE id = ?`, [name ? name : null, grade ? grade : null, req.query.id],
       function (err, results, fields) {
           res.setHeader('Access-Control-Allow-Origin', '*');
           res.send(results)
@@ -54,9 +53,8 @@ app.put('/grade', (req, res) => {
 });
 
 app.delete('/grade', (req, res) => {
-  const id = req.query.id
   connection.query(
-      'DELETE FROM grades WHERE id = ?', [id],
+      'DELETE FROM grades WHERE id = ?', [req.query.id],
       function(err, results, fields) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.send(results)

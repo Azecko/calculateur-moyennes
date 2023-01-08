@@ -12,10 +12,6 @@ services:
       MYSQL_PASSWORD: testdb
     volumes:
       - ./db:/docker-entrypoint-initdb.d
-    expose:
-      - "3307"
-    ports:
-      - "3307:3307"
 
   pma:
     image: phpmyadmin

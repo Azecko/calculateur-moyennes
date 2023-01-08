@@ -1,52 +1,43 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Entry from "./Entry";
 
-function EntryList(props) {
+function EntryList() {
     const [entries, setEntries] = useState([])
 
-    const handleAddEntry = () => {
-        fetch('http://localhost:4000/grade', {
-            method: 'POST'
-        });
-        updateEntries()
-    }
-
-    const handleRemoveEntry = (index) => {
-        fetch(`http://localhost:4000/grade?id=${index}`, {
-            method: 'DELETE'
-        });
-        setEntries(entries.filter(function(e) { return e.id !== index }))
-    }
-
-    const handleChange = (index, event) => {
-        const name = event.target.parentElement.querySelector('.name')
-        const grade = event.target.parentElement.querySelector('.grade')
-        fetch(`http://localhost:4000/grade?id=${index}&name=${name.value}&grade=${grade.value}`, {
-            method: 'PUT'
-        });
-    }
-
     const updateEntries = () => {
-        return fetch(`http://localhost:4000/grades`)
+        fetch(`http://localhost:4000/grades`)
             .then(response => response.json())
             .then(data => {
                 setEntries(data)
             })
     }
 
-    window.onload = () => updateEntries() // Afficher les entrées au chargement de la page, mais c'est un peu sketchy, todo
+    useEffect(() => {
+        updateEntries();
+    }, []);
+
+    const handleAddEntry = async () => {
+        await fetch('http://localhost:4000/grade', {
+            method: 'POST'
+        });
+        await updateEntries()
+    }
 
     return (
         <div>
-            <button type="button" onClick={handleAddEntry}>Add Entry</button>
+            <button type="button" onClick={handleAddEntry}>Ajouter</button>
             {
                 entries.map(entry => (
-                <div key={entry.id}>
-                    <input className={'name'} type="text" defaultValue={entry.name} onChange={(event) => handleChange(entry.id, event)} />
-                    <input className={'grade'} type="text" defaultValue={entry.grade} onChange={(event) => handleChange(entry.id, event)} />
-                    <button type="button" onClick={() => handleRemoveEntry(entry.id)}>Remove Entry</button>
-                </div>
+                <Entry
+                    key={entry.id}
+                    id={entry.id}
+                    name={entry.name}
+                    grade={entry.grade}
+                    updateEntries={updateEntries}
+                />
             ))
             }
+            <p>Moyenne : { entries.reduce((sum, entry) => sum + entry.grade, 0) / entries.filter((entry) => entry.grade).length }</p>
         </div>
     )
 
