@@ -14,10 +14,10 @@ En entrant les notes et les titres de chaque test, l'application se charge de ca
 4. Se rendre sur `http://localhost:3000`
 
 ## Les ports
-`http://localhost:3000` : L'app React
-`http://localhost:4000` : L'API
+`http://localhost:3000` : L'app React\
+`http://localhost:4000` : L'API\
 `http://localhost:8088` : PhpMyAdmin
 
 ## Contributeurs
-[@Azecko](https://github.com/Azecko)
+[@Azecko](https://github.com/Azecko)\
 [@iamyphar](https://github.com/iamyphar)
