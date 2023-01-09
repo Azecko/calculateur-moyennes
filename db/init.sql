@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `grades` (
   `id` int(11) NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `grade` varchar(255) DEFAULT NULL
+  `grade` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
