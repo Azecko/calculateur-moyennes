@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Entry from "./Entry";
+import Average from "./Average";
 
 function EntryList() {
     const [entries, setEntries] = useState([])
@@ -24,8 +25,16 @@ function EntryList() {
     }
 
     return (
-        <div>
-            <button type="button" onClick={handleAddEntry}>Ajouter</button>
+        <div className={'py-3'}>
+            <div className={'d-flex'}>
+                <div className={'row w-100 align-items-end'}>
+                    <h5 className={'col-6'}>Intitulé de l'examen</h5>
+                    <h5 className={'col-6'}>Note de l'examen</h5>
+                </div>
+                <button className={'btn btn-primary'} type="button" onClick={handleAddEntry}>
+                    <i className="fa-solid fa-plus"></i>
+                </button>
+            </div>
             {
                 entries.map(entry => (
                 <Entry
@@ -37,7 +46,7 @@ function EntryList() {
                 />
             ))
             }
-            <p>Moyenne : { Math.round(entries.reduce((sum, entry) => sum + entry.grade, 0) / entries.filter((entry) => entry.grade).length * 2) / 2 }</p>
+            <Average entries={entries} />
         </div>
     )
 
