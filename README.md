@@ -21,3 +21,7 @@ En entrant les notes et les titres de chaque test, l'application se charge de ca
 ## Contributeurs
 [@Azecko](https://github.com/Azecko)
 [@iamyphar](https://github.com/iamyphar)
+
+## Contributeurs
+[@Azecko](https://github.com/Azecko)
+[@iamyphar](https://github.com/iamyphar)
