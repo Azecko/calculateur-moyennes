@@ -27,6 +27,7 @@ services:
     volumes:
        - ./app:/app
     container_name: calculateur_moyennes_app
+    restart: unless-stopped
     expose:
       - "3000"
     ports:
