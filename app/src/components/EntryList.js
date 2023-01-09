@@ -37,7 +37,7 @@ function EntryList() {
                 />
             ))
             }
-            <p>Moyenne : { entries.reduce((sum, entry) => sum + entry.grade, 0) / entries.filter((entry) => entry.grade).length }</p>
+            <p>Moyenne : { Math.round(entries.reduce((sum, entry) => sum + entry.grade, 0) / entries.filter((entry) => entry.grade).length * 2) / 2 }</p>
         </div>
     )
 
