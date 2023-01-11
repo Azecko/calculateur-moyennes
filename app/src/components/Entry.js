@@ -23,19 +23,21 @@ function Entry({ id, name, grade, updateEntries }) {
         }
     }
 
+    const errorHtml = error ? (<p className={'invalid-feedback'}>La valeur entrée n'est pas valide</p>) : null
+
     return (
         <div>
             <div className={'d-flex my-2'}>
                 <div className={'row w-100'}>
                     <div className={'col-6'}>
                         <input id={'name_' + id} className={'form-control'} type="text" defaultValue={name} onChange={(event) => handleChange(id, event)} />
-                        { (error ? (<p className={'invalid-feedback'}>La valeur entrée n'est pas valide</p>) : null) }
                     </div>
                     <div className={'col-6'}>
                         <input id={'grade_' + id} className={'form-control' + (error ? ' is-invalid' : '')} type="text" defaultValue={grade} onChange={(event) => handleChange(id, event)} />
+                        { errorHtml }
                     </div>
                 </div>
-                <button className={'btn btn-danger ms-2'} type="button" onClick={() => handleRemoveEntry(id)}>
+                <button className={'btn btn-danger ms-2 height-fit-content'} type="button" onClick={() => handleRemoveEntry(id)}>
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>
