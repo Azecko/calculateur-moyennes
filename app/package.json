@@ -15,6 +15,7 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "sass": "^1.57.1",
+    "serve": "^14.1.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -23,7 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "npm i && WATCHPACK_POLLING=true react-scripts start",
-    "qual": "npm i && react-scripts start"
+    "qual": "npm i && node_modules/serve/build/main.js -s build"
   },
   "eslintConfig": {
     "extends": [

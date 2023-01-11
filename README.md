@@ -10,7 +10,7 @@ En entrant les notes et les titres de chaque test, l'application se charge de ca
 ## Comment l'utiliser
 1. Cloner le repo avec la commande `git clone git@github.com:Azecko/calculateur-moyennes.git`
 2. Se déplacer dans le bon dossier `cd calculateur-moyennes`
-3. Lancer la commande `docker-compose up`
+3. Lancer la commande `docker-compose up` (pour l'environnement de développement : `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`)
 4. Se rendre sur `http://localhost:3000`
 
 ## Les ports
