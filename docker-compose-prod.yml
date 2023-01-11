@@ -18,29 +18,35 @@ services:
     container_name: calculateur_moyennes_pma
     restart: unless-stopped
     ports:
-      - 8088:80
-    links:
-      - db
-
+      - "8088:80"
+  
   app:
-    build: ./app
+    image: "node:lts"
     container_name: calculateur_moyennes_app
+    user: "node"
+    working_dir: /home/node/app/
+    volumes:
+      - ./app:/home/node/app
+    environment:
+      - NODE_ENV=production
     expose:
       - "3000"
     ports:
       - "3000:3000"
+    command: "npm run qual"
 
   api:
-    image: "node:17"
+    image: "node:lts"
     container_name: calculateur_moyennes_api
     user: "node"
     working_dir: /home/node/app
-    links:
-      - "db"
     volumes:
       - ./api:/home/node/app
+    environment:
+      - NODE_ENV=production
     expose:
       - "4000"
     ports:
       - "4000:4000"
+    restart: unless-stopped
     command: "npm run runapi"

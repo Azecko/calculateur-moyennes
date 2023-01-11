@@ -22,7 +22,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "app": "npm i && npm run start"
+    "dev": "npm i && WATCHPACK_POLLING=true react-scripts start",
+    "qual": "npm i && react-scripts start"
   },
   "eslintConfig": {
     "extends": [
