@@ -1,5 +1,5 @@
 # calculateur-moyennes
-Calculateur-moyennes est une application [React](https://reactjs.org) crée pour le cours 347 - Utiliser un service avec des conteneurs.
+Calculateur-moyennes est une application [React](https://reactjs.org) créée pour le cours 347 - Utiliser un service avec des conteneurs.
 
 ## Objectif
 L'objectif était de créer une application qui sera "Dockerisée" via l'outil [Docker](https://www.docker.com/). Cela veut dire que l'application est démarrable via ce même outil.
