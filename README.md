@@ -13,6 +13,11 @@ En entrant les notes et les titres de chaque test, l'application se charge de ca
 3. Lancer la commande `docker-compose up` (pour l'environnement de développement : `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`)
 4. Se rendre sur `http://localhost:3000`
 
+## Pour tester l'API
+```bash
+    docker exec -it calculateur_moyennes_api npm test
+```
+
 ## Les ports
 `http://localhost:3000` : L'app React\
 `http://localhost:4000` : L'API\
