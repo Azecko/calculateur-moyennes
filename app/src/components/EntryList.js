@@ -4,12 +4,15 @@ import Average from "./Average";
 
 function EntryList() {
     const [entries, setEntries] = useState([])
+    const [average, setAverage] = useState([])
 
     const updateEntries = () => {
         fetch(`http://localhost:4000/grades`)
             .then(response => response.json())
             .then(data => {
-                setEntries(data)
+                setEntries(data.grades)
+                setAverage(data.average)
+                console.log(data)
             })
     }
 
@@ -46,7 +49,7 @@ function EntryList() {
                 />
             ))
             }
-            <Average entries={entries} />
+            <Average average={average} />
         </div>
     )
 
