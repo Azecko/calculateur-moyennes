@@ -25,7 +25,8 @@ app.get('/grades', (req, res) => {
           res.setHeader('Access-Control-Allow-Origin', '*');
 
           res.send({
-              grades: results
+              grades: results,
+              average: Math.round(results.reduce((sum, entry) => sum + entry.grade, 0) / results.filter((entry) => entry.grade).length * 2) / 2
           })
         }
       );
