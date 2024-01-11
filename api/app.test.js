@@ -13,9 +13,7 @@ describe('Grades Endpoints', () => {
         expect(res.body).toHaveProperty('average')
 
         const grades = res.body.grades;
-        const average = grades.reduce((acc, grade) => {
-            return acc + grade.grade
-        }, 0) / grades.length;
+        const average = Math.round(grades.reduce((sum, entry) => sum + entry.grade, 0) / grades.filter((entry) => entry.grade).length * 2) / 2;
 
         expect(res.body.average).toEqual(average);
     });
