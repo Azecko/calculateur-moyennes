@@ -18,14 +18,15 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-const port = 4000;
-
 app.get('/grades', (req, res) => {
     connection.query(
         'SELECT * from grades',
         function(err, results, fields) {
           res.setHeader('Access-Control-Allow-Origin', '*');
-          res.send(results)
+
+          res.send({
+              grades: results
+          })
         }
       );
 });
@@ -62,6 +63,4 @@ app.delete('/grade', (req, res) => {
     );
 });
 
-app.listen(port, () =>
-  console.log(`Server running on port ${port}, http://localhost:${port}`)
-);
+module.exports = app
