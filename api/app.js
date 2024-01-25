@@ -70,7 +70,11 @@ app.put('/subject', (req, res) => {
 
   if (name.length > 64 || name.length === 0) {
     returnError(res, 'The value must be at most 64 characters long');
+    return;
+  }
 
+  if (!/^[\x00-\x7F]*$/.test(name)) {
+    returnError(res, 'The value must be only ASCII characters');
     return;
   }
 
