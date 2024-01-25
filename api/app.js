@@ -88,4 +88,7 @@ app.delete('/grade', (req, res) => {
     );
 });
 
-module.exports = app
+module.exports = {
+    app,
+    connection
+}

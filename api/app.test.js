@@ -1,15 +1,8 @@
-const server = require('./app.js');
-const mysql = require('mysql2');
+const { app, connection} = require('./app.js');
 const supertest = require('supertest');
-const request = supertest(server);
-const { describe, it, expect } = require('@jest/globals');
+const request = supertest(app);
 
-const connection = mysql.createConnection({
-    host: 'db',
-    user: 'root',
-    password: 'secret',
-    database: 'calculateur_moyennes'
-  });
+const { describe, it, expect } = require('@jest/globals');
 
 const ERROR_NAME = 'The value must be at most 64 characters long';
 
@@ -72,4 +65,8 @@ describe('Subject Endpoints', () => {
             }
         );
     });
+});
+
+afterAll(() => {
+    connection.end();
 });

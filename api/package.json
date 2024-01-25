@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --watchAll --verbose",
+    "test-dev": "cross-env NODE_ENV=test jest --watchAll --verbose",
+    "test": "cross-env NODE_ENV=test jest",
     "runapi": "npm i && node server.js",
     "dev": "nodemon server.js"
   },
