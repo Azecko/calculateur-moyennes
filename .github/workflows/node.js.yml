@@ -15,7 +15,6 @@ jobs:
         ports:
           - 4000:4000
           - 3306:3306
-        options: --entrypoint "bash"
 
     steps:
     - name: Checkout Repository
