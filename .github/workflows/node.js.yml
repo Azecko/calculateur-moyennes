@@ -20,15 +20,17 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Build Docker Compose
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
       with:
-        cmd: docker-compose up
+        node-version: 20
+
+    - name: Build Docker Compose
+      run: docker-compose up
 
     - name: Run Tests in Docker Compose
-      with:
-        cmd: |
+      run: |
           docker exec -it calculateur_moyennes_api npm test
 
     - name: Stop Docker Compose
-      with:
-        cmd: docker-compose down
+      run: docker-compose down
