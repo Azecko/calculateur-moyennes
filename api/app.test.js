@@ -75,6 +75,25 @@ describe('Subject Endpoints', () => {
             'Body must not be empty'
         );
     });
+
+    // non ASCII characters
+    it('PUT /subject should return an error if subject name contains non ASCII characters and must not save in DB', async () => {
+        const name = 'Test Subject 😊';
+        const res = await request.put('/subject').send({name});
+
+        testResponse(res,
+            400,
+            'message',
+            'The value must be only ASCII characters'
+        );
+
+        connection.query(
+            'SELECT * from subject WHERE name = ?', [name],
+            function(err, results) {
+                expect(results.length).toEqual(0);
+            }
+        );
+    });
 });
 
 afterAll(() => {
