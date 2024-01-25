@@ -56,12 +56,9 @@ app.put('/grade', (req, res) => {
 
 app.put('/subject', (req, res) => {
   const name = req.body.name
-  
+
   connection.query(
-    `INSERT INTO subject (id, name) VALUES (1, ?) ON DUPLICATE KEY UPDATE name=?;`, [name, name],
-      function (err, results) {
-          res.setHeader('Access-Control-Allow-Origin', '*');
-      }
+    `INSERT INTO subject (id, name) VALUES (1, ?) ON DUPLICATE KEY UPDATE name=?;`, [name, name]
   );
 
   connection.query(
