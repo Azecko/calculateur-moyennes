@@ -57,7 +57,7 @@ app.put('/grade', (req, res) => {
 app.put('/subject', (req, res) => {
   const name = req.body.name
 
-  if (name.length > 64 || name === '') {
+  if (name.length > 64 || name.length === 0) {
     res.status(400).send({
       message: 'The value must be at most 64 characters long'
     });

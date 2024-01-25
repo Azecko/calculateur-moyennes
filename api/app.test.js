@@ -11,6 +11,8 @@ const connection = mysql.createConnection({
     database: 'calculateur_moyennes'
   });
 
+const ERROR_NAME = 'The value must be at most 64 characters long';
+
 function testResponse(res, statusCode, propertyName, property) {
     expect(res.status).toEqual(statusCode);
     expect(res.type).toEqual(expect.stringContaining('json'));
@@ -41,7 +43,7 @@ describe('Subject Endpoints', () => {
         testResponse(res,
             400,
             'message',
-            'The value must be at most 64 characters long'
+            ERROR_NAME
         );
 
         connection.query(
@@ -59,7 +61,7 @@ describe('Subject Endpoints', () => {
         testResponse(res,
             400,
             'message',
-            'The value must be at most 64 characters long'
+            ERROR_NAME
         );
 
 
