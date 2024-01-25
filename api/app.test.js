@@ -65,6 +65,16 @@ describe('Subject Endpoints', () => {
             }
         );
     });
+
+    it('PUT /subject should return an error if body is empty', async () => {
+        const res = await request.put('/subject').send();
+
+        testResponse(res,
+            400,
+            'message',
+            'Body must not be empty'
+        );
+    });
 });
 
 afterAll(() => {
