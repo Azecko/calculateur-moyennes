@@ -13,6 +13,15 @@ function testResponse(res, statusCode, propertyName, property) {
     expect(res.body[propertyName]).toEqual(property);
 }
 
+function isNotSavedInDB(name) {
+    connection.query(
+        'SELECT * from subject WHERE name = ?', [name],
+        function(err, results) {
+            expect(results.length).toEqual(0);
+        }
+    );
+}
+
 describe('Subject Endpoints', () => {
     it('PUT /subject should save in DB & return object with name', async () => {
         const name = 'Test Subject';
@@ -39,12 +48,7 @@ describe('Subject Endpoints', () => {
             ERROR_NAME
         );
 
-        connection.query(
-            'SELECT * from subject WHERE name = ?', [name],
-            function(err, results) {
-                expect(results.length).toEqual(0);
-            }
-        );
+        isNotSavedInDB(name);
     });
 
     it('PUT /subject should return an error if subject name is empty and must not be saved in DB', async () => {
@@ -57,13 +61,7 @@ describe('Subject Endpoints', () => {
             ERROR_NAME
         );
 
-
-        connection.query(
-            'SELECT * from subject WHERE name = ?', [name],
-            function(err, results) {
-                expect(results.length).toEqual(0);
-            }
-        );
+        isNotSavedInDB(name);
     });
 
     it('PUT /subject should return an error if body is empty', async () => {
@@ -87,12 +85,7 @@ describe('Subject Endpoints', () => {
             'The value must be only ASCII characters'
         );
 
-        connection.query(
-            'SELECT * from subject WHERE name = ?', [name],
-            function(err, results) {
-                expect(results.length).toEqual(0);
-            }
-        );
+        isNotSavedInDB(name);
     });
 });
 
