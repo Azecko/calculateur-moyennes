@@ -1,20 +1,75 @@
 const server = require('./app.js');
+const mysql = require('mysql2');
 const supertest = require('supertest');
-const requestWithSupertest = supertest(server);
+const request = supertest(server);
 const { describe, it, expect } = require('@jest/globals');
 
-describe('Grades Endpoints', () => {
-    it('GET /grades should show all grades & average', async () => {
-        const res = await requestWithSupertest.get('/grades');
+const connection = mysql.createConnection({
+    host: 'db',
+    user: 'root',
+    password: 'secret',
+    database: 'calculateur_moyennes'
+  });
 
-        expect(res.status).toEqual(200);
-        expect(res.type).toEqual(expect.stringContaining('json'));
-        expect(res.body).toHaveProperty('grades')
-        expect(res.body).toHaveProperty('average')
+const ERROR_NAME = 'The value must be at most 64 characters long';
 
-        const grades = res.body.grades;
-        const average = Math.round(grades.reduce((sum, entry) => sum + entry.grade, 0) / grades.filter((entry) => entry.grade).length * 2) / 2;
+function testResponse(res, statusCode, propertyName, property) {
+    expect(res.status).toEqual(statusCode);
+    expect(res.type).toEqual(expect.stringContaining('json'));
+    expect(res.body).toHaveProperty(propertyName);
+    expect(res.body[propertyName]).toEqual(property);
+}
 
-        expect(res.body.average).toEqual(average);
+describe('Subject Endpoints', () => {
+    it('PUT /subject should save in DB & return object with name', async () => {
+        const name = 'Test Subject';
+        const res = await request.put('/subject').send({name});
+
+        testResponse(res, 200, 'name', name);
+
+        connection.query(
+            'SELECT * from subject WHERE name = ?', [name],
+            function(err, results) {
+                expect(results[0].name).toEqual(name);
+            }
+        );
+    });
+
+    it('PUT /subject should return an error if subject name is too long and must not be saved in DB', async () => {
+        const name = 'Test Subject Who Is Very Too Long So The Test Should Fail' +
+            'Because The Name Is Too Long To Be Saved In The Database';
+        const res = await request.put('/subject').send({name});
+
+        testResponse(res,
+            400,
+            'message',
+            ERROR_NAME
+        );
+
+        connection.query(
+            'SELECT * from subject WHERE name = ?', [name],
+            function(err, results) {
+                expect(results.length).toEqual(0);
+            }
+        );
+    });
+
+    it('PUT /subject should return an error if subject name is empty and must not be saved in DB', async () => {
+        const name = '';
+        const res = await request.put('/subject').send({name});
+
+        testResponse(res,
+            400,
+            'message',
+            ERROR_NAME
+        );
+
+
+        connection.query(
+            'SELECT * from subject WHERE name = ?', [name],
+            function(err, results) {
+                expect(results.length).toEqual(0);
+            }
+        );
     });
 });
