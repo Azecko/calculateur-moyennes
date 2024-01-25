@@ -51,4 +51,23 @@ describe('Subject Endpoints', () => {
             }
         );
     });
+
+    it('PUT /subject should return an error if subject name is empty and must not be saved in DB', async () => {
+        const name = '';
+        const res = await request.put('/subject').send({name});
+
+        testResponse(res,
+            400,
+            'message',
+            'The value must be at most 64 characters long'
+        );
+
+
+        connection.query(
+            'SELECT * from subject WHERE name = ?', [name],
+            function(err, results) {
+                expect(results.length).toEqual(0);
+            }
+        );
+    });
 });
