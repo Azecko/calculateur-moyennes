@@ -55,6 +55,14 @@ app.put('/grade', (req, res) => {
 });
 
 app.put('/subject', (req, res) => {
+  if (Object.keys(req.body).length === 0) {
+    res.status(400).send({
+      message: 'Body must not be empty'
+    });
+
+    return;
+  }
+
   const name = req.body.name
 
   if (name.length > 64 || name.length === 0) {
