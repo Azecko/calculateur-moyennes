@@ -21,11 +21,14 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker Compose
-      run: docker-compose up
+      with:
+        cmd: docker-compose up
 
     - name: Run Tests in Docker Compose
-      run: |
-        docker exec -it calculateur_moyennes_api npm test
+      with:
+        cmd: |
+          docker exec -it calculateur_moyennes_api npm test
 
     - name: Stop Docker Compose
-      run: docker-compose down
+      with:
+        cmd: docker-compose down
