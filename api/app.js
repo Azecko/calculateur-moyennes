@@ -18,6 +18,12 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+function returnError(res, message) {
+  res.status(400).send({
+    message: message
+  });
+}
+
 app.get('/grades', (req, res) => {
     connection.query(
         'SELECT * from grades',
@@ -56,19 +62,14 @@ app.put('/grade', (req, res) => {
 
 app.put('/subject', (req, res) => {
   if (Object.keys(req.body).length === 0) {
-    res.status(400).send({
-      message: 'Body must not be empty'
-    });
-
+    returnError(res, 'Body must not be empty');
     return;
   }
 
   const name = req.body.name
 
   if (name.length > 64 || name.length === 0) {
-    res.status(400).send({
-      message: 'The value must be at most 64 characters long'
-    });
+    returnError(res, 'The value must be at most 64 characters long');
 
     return;
   }
