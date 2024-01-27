@@ -19,9 +19,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 function returnError(res, message) {
-  res.status(400).send({
-    message: message
-  });
+  res.status(400).send({message});
 }
 
 app.get('/grades', (req, res) => {
@@ -61,7 +59,9 @@ app.put('/grade', (req, res) => {
 });
 
 app.put('/subject', (req, res) => {
-  if (Object.keys(req.body).length === 0) {
+  const bodyKeys = Object.keys(req.body)
+
+  if (bodyKeys.length === 0) {
     returnError(res, 'Body must not be empty');
     return;
   }
@@ -73,7 +73,7 @@ app.put('/subject', (req, res) => {
     return;
   }
 
-  if (Object.keys(req.body).length > 1) {
+  if (bodyKeys.length > 1) {
     returnError(res, 'Body must not contain additional properties');
     return;
   }
