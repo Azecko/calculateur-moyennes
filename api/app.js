@@ -68,8 +68,13 @@ app.put('/subject', (req, res) => {
 
   const name = req.body.name
 
-  if (name.length > 64 || name.length === 0) {
+  if (!name || name.length > 64 || name.length === 0) {
     returnError(res, 'The value must be at most 64 characters long');
+    return;
+  }
+
+  if (Object.keys(req.body).length > 1) {
+    returnError(res, 'Body must not contain additional properties');
     return;
   }
 
