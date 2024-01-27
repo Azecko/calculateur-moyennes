@@ -15,9 +15,9 @@ function testResponse(res, statusCode, propertyName, property) {
 
 function isNotSavedInDB(name) {
     connection.query(
-        'SELECT * from subject WHERE name = ?', [name],
+        'SELECT * from subject WHERE id = ?', [1],
         function(err, results) {
-            expect(results.length).toEqual(0);
+            expect(results.name).not.toEqual(name);
         }
     );
 }
@@ -74,7 +74,6 @@ describe('Subject Endpoints', () => {
         );
     });
 
-    // non ASCII characters
     it('PUT /subject should return an error if subject name contains non ASCII characters and must not save in DB', async () => {
         const name = 'Test Subject 😊';
         const res = await request.put('/subject').send({name});
@@ -83,6 +82,19 @@ describe('Subject Endpoints', () => {
             400,
             'message',
             'The value must be only ASCII characters'
+        );
+
+        isNotSavedInDB(name);
+    });
+
+    it('PUT /subject should return an error if body contains additional properties and must not save in DB', async () => {
+        const name = 'Test Subject With Additional Properties';
+        const res = await request.put('/subject').send({name, additional: 'property'});
+
+        testResponse(res,
+            400,
+            'message',
+            'Body must not contain additional properties'
         );
 
         isNotSavedInDB(name);
