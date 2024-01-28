@@ -1,0 +1,36 @@
+name: Test API & DB using Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      docker:
+        image: docker:latest
+        ports:
+          - 4000:4000
+          - 3306:3306
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Build Docker Compose
+      run: docker-compose up
+
+    - name: Run Tests in Docker Compose
+      run: |
+          docker exec -it calculateur_moyennes_api npm test
+
+    - name: Stop Docker Compose
+      run: docker-compose down

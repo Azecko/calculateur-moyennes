@@ -18,6 +18,10 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+function returnError(res, message) {
+  res.status(400).send({message});
+}
+
 app.get('/grades', (req, res) => {
     connection.query(
         'SELECT * from grades',
@@ -55,13 +59,27 @@ app.put('/grade', (req, res) => {
 });
 
 app.put('/subject', (req, res) => {
+  const bodyKeys = Object.keys(req.body)
+
+  if (bodyKeys.length === 0) {
+    returnError(res, 'Body must not be empty');
+    return;
+  }
+
   const name = req.body.name
 
-  if (name.length > 64 || name.length === 0) {
-    res.status(400).send({
-      message: 'The value must be at most 64 characters long'
-    });
+  if (!name || name.length > 64 || name.length === 0) {
+    returnError(res, 'The value must be at most 64 characters long');
+    return;
+  }
 
+  if (bodyKeys.length > 1) {
+    returnError(res, 'Body must not contain additional properties');
+    return;
+  }
+
+  if (!/^[\x00-\x7F]*$/.test(name)) {
+    returnError(res, 'The value must be only ASCII characters');
     return;
   }
 
@@ -88,4 +106,7 @@ app.delete('/grade', (req, res) => {
     );
 });
 
-module.exports = app
+module.exports = {
+    app,
+    connection
+}
