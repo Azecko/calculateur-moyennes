@@ -100,7 +100,7 @@ describe('Subject Endpoints', () => {
         isNotSavedInDB(name);
     });
 
-    it('GET /subject should return subject name', async () => {
+    it('GET /subject should return subject name and must be the same in DB', async () => {
         const name = 'Test Subject';
         const res = await request.get('/subject');
 
