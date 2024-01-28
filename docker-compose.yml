@@ -12,6 +12,11 @@ services:
       MYSQL_PASSWORD: testdb
     volumes:
       - ./db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   pma:
     image: phpmyadmin
@@ -19,6 +24,9 @@ services:
     restart: unless-stopped
     ports:
       - "8088:80"
+    depends_on:
+      db:
+        condition: service_healthy
 
   app:
     image: "node:lts"
@@ -34,6 +42,9 @@ services:
     ports:
       - "3000:3000"
     command: "npm run qual"
+    depends_on:
+      db:
+        condition: service_healthy
 
   api:
     image: "node:lts"
@@ -50,3 +61,6 @@ services:
       - "4000:4000"
     restart: unless-stopped
     command: "npm run runapi"
+    depends_on:
+      db:
+        condition: service_healthy
