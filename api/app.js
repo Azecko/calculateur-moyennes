@@ -106,6 +106,16 @@ app.delete('/grade', (req, res) => {
     );
 });
 
+app.get('/subject', (req, res) => {
+  connection.query(
+      'SELECT * from subject WHERE id = 1',
+      function(err, results, fields) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.send(results[0])
+      }
+    );
+});
+
 module.exports = {
     app,
     connection
