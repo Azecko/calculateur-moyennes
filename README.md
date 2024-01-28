@@ -1,3 +1,4 @@
+![test API workflow](https://github.com/Azecko/calculateur-moyennes/actions/workflows/node.js.yml/badge.svg)
 # calculateur-moyennes
 Calculateur-moyennes est une application [React](https://reactjs.org) créée pour le cours 347 - Utiliser un service avec des conteneurs.
 

@@ -2,35 +2,42 @@ name: Test API & DB using Docker
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
+    env:
+      DB_NAME: calculateur_moyennes
+      DB_USER: testdb
+      DB_PASSWORD: testdb
+
     services:
-      docker:
-        image: docker:latest
-        ports:
-          - 4000:4000
-          - 3306:3306
+        db:
+          image: mysql
+          env:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: ${{ env.DB_NAME }}
+            MYSQL_USER: ${{ env.DB_USER }}
+            MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
+          ports:
+            - 3306:3306
+          options: >-
+            --health-cmd "mysqladmin ping"
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+            --name db
+            --hostname db
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-
-    - name: Build Docker Compose
-      run: docker-compose up
-
-    - name: Run Tests in Docker Compose
-      run: |
-          docker exec -it calculateur_moyennes_api npm test
-
-    - name: Stop Docker Compose
-      run: docker-compose down
+      - uses: actions/checkout@v3
+      - name: Init DB
+        run: echo "USE $DB_NAME;" | cat - ./db/init.sql | mysql -h 127.0.0.1 -u$DB_USER -p$DB_PASSWORD
+      - name: NPM install API
+        run: cd api && npm install
+      - name: Test api
+        run: cd api && npm test
