@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      DB_HOST: 127.0.0.1
       DB_NAME: calculateur_moyennes
       DB_USER: testdb
       DB_PASSWORD: testdb
@@ -36,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Init DB
-        run: echo "USE $DB_NAME;" | cat - ./db/init.sql | mysql -h 127.0.0.1 -u$DB_USER -p$DB_PASSWORD
+        run: echo "USE $DB_NAME;" | cat - ./db/init.sql | mysql -h $DB_HOST -u$DB_USER -p$DB_PASSWORD
       - name: NPM install API
         run: cd api && npm install
       - name: Test api

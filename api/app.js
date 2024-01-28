@@ -4,10 +4,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const connection = mysql.createConnection({
-  host: 'db',
+  host: process.env.DB_HOST || 'db',
   user: 'root',
   password: 'secret',
-  database: 'calculateur_moyennes'
+  database: process.env.DB_NAME || 'calculateur_moyennes'
 });
 
 const app = express();
