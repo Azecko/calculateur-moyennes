@@ -1,7 +1,6 @@
 const express = require('express');
-
 const mysql = require('mysql2');
-
+const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const connection = mysql.createConnection({
@@ -12,6 +11,7 @@ const connection = mysql.createConnection({
 });
 
 const app = express();
+app.use(express.json());
 
 const corsOptions = {
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -50,6 +50,30 @@ app.put('/grade', (req, res) => {
       function (err, results, fields) {
           res.setHeader('Access-Control-Allow-Origin', '*');
           res.send(results)
+      }
+  );
+});
+
+app.put('/subject', (req, res) => {
+  const name = req.body.name
+
+  if (name.length > 64 || name.length === 0) {
+    res.status(400).send({
+      message: 'The value must be at most 64 characters long'
+    });
+
+    return;
+  }
+
+  connection.query(
+    `INSERT INTO subject (id, name) VALUES (1, ?) ON DUPLICATE KEY UPDATE name=?;`, [name, name]
+  );
+
+  connection.query(
+    `SELECT * from subject WHERE id = 1;`,
+      function (err, results) {
+          res.setHeader('Access-Control-Allow-Origin', '*');
+          res.send(results[0])
       }
   );
 });
