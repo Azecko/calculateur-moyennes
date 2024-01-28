@@ -99,6 +99,20 @@ describe('Subject Endpoints', () => {
 
         isNotSavedInDB(name);
     });
+
+    it('GET /subject should return subject name', async () => {
+        const name = 'Test Subject';
+        const res = await request.get('/subject');
+
+        testResponse(res, 200, 'name', name);
+
+        connection.query(
+            'SELECT * from subject WHERE name = ?', [name],
+            function(err, results) {
+                expect(results[0].name).toEqual(name);
+            }
+        );
+    });
 });
 
 afterAll(() => {
