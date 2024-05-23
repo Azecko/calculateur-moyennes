@@ -3,11 +3,13 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+process.env.DB_NAME = process.env.DB_NAME || 'calculateur_moyennes'
+
 const connection = mysql.createConnection({
   host: process.env.DB_HOST || 'db',
   user: 'root',
   password: 'secret',
-  database: process.env.DB_NAME || 'calculateur_moyennes'
+  database: process.env.DB_NAME
 });
 
 const app = express();

@@ -2,7 +2,7 @@ const { app, connection} = require('./app.js');
 const supertest = require('supertest');
 const request = supertest(app);
 
-const { describe, it, expect } = require('@jest/globals');
+const { describe, it, expect, beforeAll, beforeEach, afterAll } = require('@jest/globals');
 
 const ERROR_NAME = 'The value must be at most 64 characters long';
 
@@ -23,6 +23,48 @@ function isNotSavedInDB(name) {
 }
 
 describe('Subject Endpoints', () => {
+    beforeAll((done) => {
+        process.env.DB_NAME += '_test';
+
+        // use the test database (or create it if it does not exist)
+        connection.query('CREATE DATABASE IF NOT EXISTS ' + process.env.DB_NAME,  function (err) {
+            if (err) throw err;
+            connection.changeUser({ database: process.env.DB_NAME }, function (err) {
+                if (err) throw err;
+                // create the table if it does not exist
+                connection.query('CREATE TABLE IF NOT EXISTS subject (id INT PRIMARY KEY, name VARCHAR(64))', function (err) {
+                    if (err) throw err;
+                    connection.query('CREATE TABLE IF NOT EXISTS grades (id INT PRIMARY KEY, name VARCHAR(64), grade FLOAT)', function (err) {
+                        if (err) throw err;
+                        done();
+                    });
+                });
+            });
+        });
+    })
+
+    beforeEach((done) => {
+        // reset DB
+        connection.query('TRUNCATE TABLE subject',
+            function(err, results) {
+                if (err) throw err;
+                connection.query('TRUNCATE TABLE grades',
+                    function(err, results) {
+                        if (err) throw err;
+                        connection.query('INSERT INTO grades (id, name, grade) VALUES (1, "Geometry", 6), (2, "Algebra", 3.5), (3, "Trigonometry", 4.5), (4, "Statistics", 5.5), (5, "Linear Algebra", 4), (6, "Differential Equations", 5)',
+                            function(err, results) {
+                                if (err) throw err;
+                                connection.query('INSERT INTO subject (id, name) VALUES (1, "Math")'
+                                    , function(err, results) {
+                                        if (err) throw err;
+                                        done();
+                                    });
+                            });
+                    }
+                );
+        });
+    });
+
     it('PUT /subject should save in DB & return object with name', async () => {
         const name = 'Test Subject';
         const res = await request.put('/subject').send({name});
@@ -101,7 +143,7 @@ describe('Subject Endpoints', () => {
     });
 
     it('GET /subject should return subject name and must be the same in DB', async () => {
-        const name = 'Test Subject';
+        const name = 'Math';
         const res = await request.get('/subject');
 
         testResponse(res, 200, 'name', name);
@@ -113,8 +155,11 @@ describe('Subject Endpoints', () => {
             }
         );
     });
-});
 
-afterAll(() => {
-    connection.end();
+    afterAll((done) => {
+        connection.end(function(err) {
+                if (err) throw err;
+                done();
+        });
+    });
 });
