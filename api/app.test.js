@@ -14,6 +14,7 @@ function testResponse(res, statusCode, propertyName, property) {
 }
 
 function isNotSavedInDB(name) {
+    // Check in DB if the name is not saved
     connection.query(
         'SELECT * from subject WHERE id = ?', [1],
         function(err, results) {
@@ -44,7 +45,7 @@ describe('API Endpoints', () => {
     })
 
     beforeEach((done) => {
-        // reset DB
+        // reset DB before each test
         connection.query('TRUNCATE TABLE subject',
             function(err, results) {
                 if (err) throw err;
@@ -66,11 +67,18 @@ describe('API Endpoints', () => {
     });
 
     it('PUT /subject should save in DB & return object with name', async () => {
+        // Arrange
         const name = 'Test Subject';
+
+        // Act
         const res = await request.put('/subject').send({name});
 
+
+        // Assert
+        // Check if the response is correct
         testResponse(res, 200, 'name', name);
 
+        // Check in DB if the name is saved
         connection.query(
             'SELECT * from subject WHERE name = ?', [name],
             function(err, results) {
@@ -80,35 +88,52 @@ describe('API Endpoints', () => {
     });
 
     it('PUT /subject should return an error if subject name is too long and must not be saved in DB', async () => {
+        // Arrange
         const name = 'Test Subject Who Is Very Too Long So The Test Should Fail' +
             'Because The Name Is Too Long To Be Saved In The Database';
+
+        // Act
         const res = await request.put('/subject').send({name});
 
+        // Assert
+        // Check if the response is correct
         testResponse(res,
             400,
             'message',
             ERROR_NAME
         );
 
+        // Check in DB if the name is not saved
         isNotSavedInDB(name);
     });
 
     it('PUT /subject should return an error if subject name is empty and must not be saved in DB', async () => {
+        // Arrange
         const name = '';
+
+        // Act
         const res = await request.put('/subject').send({name});
 
+        // Assert
+        // Check if the response is correct
         testResponse(res,
             400,
             'message',
             ERROR_NAME
         );
 
+        // Check in DB if the name is not saved
         isNotSavedInDB(name);
     });
 
     it('PUT /subject should return an error if body is empty', async () => {
-        const res = await request.put('/subject').send();
+        // Arrange
+        const name = null;
 
+        // Act
+        const res = await request.put('/subject').send(name);
+
+        // Assert
         testResponse(res,
             400,
             'message',
@@ -117,37 +142,55 @@ describe('API Endpoints', () => {
     });
 
     it('PUT /subject should return an error if subject name contains non ASCII characters and must not save in DB', async () => {
+        // Arrange
         const name = 'Test Subject 😊';
+
+        // Act
         const res = await request.put('/subject').send({name});
 
+        // Assert
+        // Check if the response is correct
         testResponse(res,
             400,
             'message',
             'The value must be only ASCII characters'
         );
 
+        // Check in DB if the name is not saved
         isNotSavedInDB(name);
     });
 
     it('PUT /subject should return an error if body contains additional properties and must not save in DB', async () => {
+        // Arrange
         const name = 'Test Subject With Additional Properties';
+
+        // Act
         const res = await request.put('/subject').send({name, additional: 'property'});
 
+        // Assert
+        // Check if the response is correct
         testResponse(res,
             400,
             'message',
             'Body must not contain additional properties'
         );
 
+        // Check in DB if the name is not saved
         isNotSavedInDB(name);
     });
 
     it('GET /subject should return subject name and must be the same in DB', async () => {
+        // Arrange
         const name = 'Math';
+
+        // Act
         const res = await request.get('/subject');
 
+        // Assert
+        // Check if the response is correct
         testResponse(res, 200, 'name', name);
 
+        // Check in DB if the name is the same
         connection.query(
             'SELECT * from subject WHERE name = ?', [name],
             function(err, results) {
