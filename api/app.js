@@ -24,6 +24,10 @@ function returnError(res, message) {
   res.status(400).send({message});
 }
 
+function calculateAverage(grades) {
+  return Math.round(grades.reduce((sum, entry) => sum + entry.grade, 0) / grades.filter((entry) => entry.grade).length * 2) / 2
+}
+
 app.get('/grades', (req, res) => {
     connection.query(
         'SELECT * from grades',
@@ -32,7 +36,7 @@ app.get('/grades', (req, res) => {
 
           res.send({
               grades: results,
-              average: Math.round(results.reduce((sum, entry) => sum + entry.grade, 0) / results.filter((entry) => entry.grade).length * 2) / 2
+              average: calculateAverage(results)
           })
         }
       );
@@ -120,5 +124,6 @@ app.get('/subject', (req, res) => {
 
 module.exports = {
     app,
-    connection
+    connection,
+    calculateAverage
 }

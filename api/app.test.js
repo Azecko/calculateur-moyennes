@@ -1,4 +1,4 @@
-const { app, connection} = require('./app.js');
+const { app, connection, calculateAverage } = require('./app.js');
 const supertest = require('supertest');
 const request = supertest(app);
 
@@ -22,7 +22,7 @@ function isNotSavedInDB(name) {
     );
 }
 
-describe('Subject Endpoints', () => {
+describe('API Endpoints', () => {
     beforeAll((done) => {
         process.env.DB_NAME += '_test';
 
@@ -154,6 +154,25 @@ describe('Subject Endpoints', () => {
                 expect(results[0].name).toEqual(name);
             }
         );
+    });
+
+    it('Function calculateAverage should return the average of grades', () => {
+        // Arrange
+        const grades = [
+            { id: 1, name: 'Geometry', grade: 6 },
+            { id: 2, name: 'Algebra', grade: 3.5 },
+            { id: 3, name: 'Trigonometry', grade: 4.5 },
+            { id: 4, name: 'Statistics', grade: 5.5 },
+            { id: 5, name: 'Linear Algebra', grade: 4 },
+            { id: 6, name: 'Differential Equations', grade: 5 }
+        ];
+
+        // Act
+        const average = calculateAverage(grades);
+
+        // Assert
+        const expectedAverage = 5;
+        expect(average).toEqual(expectedAverage);
     });
 
     afterAll((done) => {
