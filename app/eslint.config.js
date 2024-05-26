@@ -1,5 +1,6 @@
 import babelParser from "@babel/eslint-parser";
 import js from "@eslint/js";
+import globals from "globals";
 
 export default [
     js.configs.recommended,
@@ -9,8 +10,8 @@ export default [
             ecmaVersion: "latest",
             sourceType: "module",
             globals: {
-                Atomics: "readonly",
-                SharedArrayBuffer: "readonly",
+                ...globals.browser,
+                ...globals.node,
             },
         },
         ignores: [
