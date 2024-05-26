@@ -1,3 +1,4 @@
+![ESLint Workflow](https://github.com/Azecko/calculateur-moyennes/actions/workflows/lint.yml/badge.svg)
 ![test front-end workflow](https://github.com/Azecko/calculateur-moyennes/actions/workflows/frontend.yml/badge.svg)
 ![test API workflow](https://github.com/Azecko/calculateur-moyennes/actions/workflows/node.js.yml/badge.svg)
 # calculateur-moyennes
