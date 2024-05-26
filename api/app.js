@@ -1,6 +1,5 @@
 const express = require('express');
 const mysql = require('mysql2');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 
 process.env.DB_NAME = process.env.DB_NAME || 'calculateur_moyennes'
@@ -31,7 +30,7 @@ function calculateAverage(grades) {
 app.get('/grades', (req, res) => {
     connection.query(
         'SELECT * from grades',
-        function(err, results, fields) {
+        function(err, results) {
           res.setHeader('Access-Control-Allow-Origin', '*');
 
           res.send({
@@ -45,7 +44,7 @@ app.get('/grades', (req, res) => {
 app.post('/grade', (req, res) => {
     connection.query(
       `INSERT INTO grades (name, grade) VALUES (NULL, NULL);`,
-        function (err, results, fields) {
+        function (err, results) {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.send(results)
         }
@@ -57,7 +56,7 @@ app.put('/grade', (req, res) => {
   const grade = req.query.grade
   connection.query(
     `UPDATE grades SET name = ?, grade = ? WHERE id = ?`, [name ? name : null, grade ? grade : null, req.query.id],
-      function (err, results, fields) {
+      function (err, results) {
           res.setHeader('Access-Control-Allow-Origin', '*');
           res.send(results)
       }
@@ -105,7 +104,7 @@ app.put('/subject', (req, res) => {
 app.delete('/grade', (req, res) => {
   connection.query(
       'DELETE FROM grades WHERE id = ?', [req.query.id],
-      function(err, results, fields) {
+      function(err, results) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.send(results)
       }
@@ -115,7 +114,7 @@ app.delete('/grade', (req, res) => {
 app.get('/subject', (req, res) => {
   connection.query(
       'SELECT * from subject WHERE id = 1',
-      function(err, results, fields) {
+      function(err, results) {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.send(results[0])
       }

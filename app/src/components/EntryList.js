@@ -12,7 +12,6 @@ function EntryList() {
             .then(data => {
                 setEntries(data.grades)
                 setAverage(data.average)
-                console.log(data)
             })
     }
 

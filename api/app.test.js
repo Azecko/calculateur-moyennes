@@ -47,16 +47,16 @@ describe('API Endpoints', () => {
     beforeEach((done) => {
         // reset DB before each test
         connection.query('TRUNCATE TABLE subject',
-            function(err, results) {
+            function(err) {
                 if (err) throw err;
                 connection.query('TRUNCATE TABLE grades',
-                    function(err, results) {
+                    function(err) {
                         if (err) throw err;
                         connection.query('INSERT INTO grades (id, name, grade) VALUES (1, "Geometry", 6), (2, "Algebra", 3.5), (3, "Trigonometry", 4.5), (4, "Statistics", 5.5), (5, "Linear Algebra", 4), (6, "Differential Equations", 5)',
-                            function(err, results) {
+                            function(err) {
                                 if (err) throw err;
                                 connection.query('INSERT INTO subject (id, name) VALUES (1, "Math")'
-                                    , function(err, results) {
+                                    , function(err) {
                                         if (err) throw err;
                                         done();
                                     });

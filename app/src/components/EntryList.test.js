@@ -1,10 +1,12 @@
 import React from 'react';
-import { render, fireEvent, screen, queryByAttribute } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import EntryList from './EntryList';
+import { afterEach, test, expect, describe } from '@jest/globals';
+import { fn } from 'jest-mock';
 
 // Mock de la fonction fetch
-global.fetch = jest.fn(() => Promise.resolve({
+global.fetch = fn(() => Promise.resolve({
     json: () => Promise.resolve({})
 }));
 
