@@ -9,7 +9,7 @@ global.fetch = jest.fn(() => Promise.resolve({
     json: () => Promise.resolve({})
 }));
 
-jest.doMock('./Entry', () => {
+jest.mock('./Entry', () => {
     return () =>(
         <div className={'row w-100'}>
             <div className={'col-6'}>
