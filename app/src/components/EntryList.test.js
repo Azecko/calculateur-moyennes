@@ -22,6 +22,7 @@ describe('Input testing', () => {
         jest.clearAllMocks();
     });
 
+    // IT008
     test('Entry added when clicking +', () => {
         render(<EntryList />);
 
