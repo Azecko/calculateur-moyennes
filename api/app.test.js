@@ -66,6 +66,7 @@ describe('API Endpoints', () => {
         });
     });
 
+    // ID : IT001
     it('PUT /subject should save in DB & return object with name', async () => {
         // Arrange
         const name = 'Test Subject';
@@ -87,6 +88,7 @@ describe('API Endpoints', () => {
         );
     });
 
+    // ID : IT002
     it('PUT /subject should return an error if subject name is too long and must not be saved in DB', async () => {
         // Arrange
         const name = 'Test Subject Who Is Very Too Long So The Test Should Fail' +
@@ -107,6 +109,7 @@ describe('API Endpoints', () => {
         isNotSavedInDB(name);
     });
 
+    // ID : IT003
     it('PUT /subject should return an error if subject name is empty and must not be saved in DB', async () => {
         // Arrange
         const name = '';
@@ -126,6 +129,7 @@ describe('API Endpoints', () => {
         isNotSavedInDB(name);
     });
 
+    // ID : IT004
     it('PUT /subject should return an error if body is empty', async () => {
         // Arrange
         const name = null;
@@ -141,6 +145,7 @@ describe('API Endpoints', () => {
         );
     });
 
+    // ID : IT005
     it('PUT /subject should return an error if subject name contains non ASCII characters and must not save in DB', async () => {
         // Arrange
         const name = 'Test Subject 😊';
@@ -160,6 +165,7 @@ describe('API Endpoints', () => {
         isNotSavedInDB(name);
     });
 
+    // ID : IT006
     it('PUT /subject should return an error if body contains additional properties and must not save in DB', async () => {
         // Arrange
         const name = 'Test Subject With Additional Properties';
@@ -179,6 +185,7 @@ describe('API Endpoints', () => {
         isNotSavedInDB(name);
     });
 
+    // ID : IT007
     it('GET /subject should return subject name and must be the same in DB', async () => {
         // Arrange
         const name = 'Math';
@@ -199,6 +206,7 @@ describe('API Endpoints', () => {
         );
     });
 
+    // ID : UT001
     it('Function calculateAverage should return the average of grades', () => {
         // Arrange
         const grades = [
