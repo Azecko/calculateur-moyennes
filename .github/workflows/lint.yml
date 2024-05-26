@@ -7,18 +7,26 @@ on:
     branches: [ "main" ]
 
 jobs:
-  eslint:
+  eslintApp:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
-      - run: cd app && npm install
-      - uses: sibiraj-s/action-eslint@v3
+          node-version: 20
+      - name: Install dependencies in APP
+        run: cd app && npm install
+      - name: ESLint
+        run: cd app && npm run lint
+  eslintApi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          eslint-args: '--ignore-path=.gitignore --quiet'
-          extensions: 'js,jsx,ts,tsx'
-          annotations: true
-          working-directory: app
-          all-files: true
+          node-version: 20
+      - name: Install dependencies in API
+        run: cd api && npm install
+      - name: ESLint
+        run: cd api && npm run lint
+
